@@ -6,7 +6,7 @@
 1. 阅读 [`IDIOMS_AND_PATTERNS.md`](IDIOMS_AND_PATTERNS.md)。
 2. 完成 [`EXERCISES.md`](EXERCISES.md) 的判断与设计题。
 3. 按 [`PRACTICE_MAP.md`](PRACTICE_MAP.md) 回到已有代码练习，不新增重复 demo。
-4. 在 Capstone architecture 中指出 pattern 的位置与代价。
+4. 阅读概念文档的 SOLID in C++ 章节，在 Capstone architecture 中检查职责、替换 contract 和 dependency ownership。
 
 答案放在 `solution/idioms-patterns`，review 后合并到 `answers`。
 
@@ -17,7 +17,7 @@
 | 45 min | RAII、Rule of Zero/Five、copy-and-swap、scope guard |
 | 30 min | PImpl、type erasure、non-virtual interface、dependency injection |
 | 45 min | Strategy、State、Adapter、Observer/Command |
-| 45 min | existing-code review + Capstone mapping |
+| 45 min | SOLID checklist + existing-code/Capstone review |
 | 15 min | quiz、错题和 60 秒英文回答 |
 
 退出条件：能从具体 failure/change requirement 推导 idiom/pattern，而不是看到名称就套 class hierarchy。

@@ -86,6 +86,56 @@ value snapshot + dispatcher 通常比裸 observer pointer 更安全。
 这是设计原则而非必须使用 framework。constructor 参数接收小 interface/reference/value policy 通常足够，能让 core 用 fake
 transport/clock/store 测试。
 
+## SOLID in C++ — 30–45 Minute Review
+
+SOLID 用于检查 component boundaries 和替换 contract。C++ 可以通过 composition、virtual interfaces、templates 或
+function objects 实现这些原则；选择取决于实际变化需求、ownership 和测试方式。
+
+| Principle | C++ interpretation | Capstone application |
+|---|---|---|
+| S — Single Responsibility | 围绕一个变化原因组织相关逻辑，保持 cohesive invariant | parser、session、repository、MFC presenter 分工 |
+| O — Open/Closed | 已知变化轴通过 policy/interface 扩展，稳定流程保持集中 | 替换 retry/interlock policy |
+| L — Liskov Substitution | 替换实现仍满足调用方依赖的完整 contract | fake/real transport 的 callback、error、cancel 语义一致 |
+| I — Interface Segregation | 按调用方需求提供小接口 | telemetry reader、command sender、audit writer |
+| D — Dependency Inversion | 核心依赖稳定 contract，adapter 实现该 contract | StationService 注入 transport、repository、dispatcher |
+
+### SRP and OCP: choose real change boundaries
+
+SRP 不意味着每个 method 都拆一个 class。将一起维护 invariant 的 state 和操作放在一起，再隔离 protocol、persistence、
+UI 等独立变化原因。OCP 针对已知变化需求；新增 policy 后应能验证原流程，而不是为了未知需求预先建立大量接口。
+
+### LSP: signatures are only the beginning
+
+实现不能加强调用前置条件、削弱结果保证，或破坏 invariant。在 C++ 中还需要核对：
+
+- 谁拥有参数/result，reference/view 的有效期是什么；
+- exception guarantee 和 `noexcept` 承诺是否保持；
+- callback 在什么 executor 上执行，是否 inline、是否允许 reentrancy；
+- accepted operation 的 completion 次数和 cancellation 后行为；
+- shutdown 后是否仍会投递 callback，何时可以销毁对象。
+
+例如 contract 要求 callback 异步投递到指定 executor，fake transport 却立即在 caller thread 调用，会破坏线程和
+reentrancy 假设。测试替身同样需要遵守 contract；compiler 只能检查其中一部分。
+
+### ISP and DIP: make dependencies explicit
+
+避免让只读 telemetry consumer 依赖包含 write、admin、connection control 的巨大接口。按 client needs 拆分，同时保持
+可理解的职责。DIP 可以用 constructor 注入 `ITransport&`，也可以使用 template/callable policy；runtime substitution
+更适合 virtual interface，固定策略可以用 compile-time composition。
+
+非 owning reference 要求 dependency 比 service 活得更久；`unique_ptr` 表示转移独占 ownership。引入抽象后仍必须说明这些
+lifetime contracts。通过 base pointer 删除对象时，base destructor 需要支持安全的 polymorphic destruction。
+
+### Review checklist
+
+1. 一个组件包含哪些独立变化原因？哪些状态必须共同维护 invariant？
+2. 是否存在真实 policy variation，最小扩展点是什么？
+3. fake 与 real implementation 是否遵守相同 lifetime/error/thread/cancellation contract？
+4. 每个 client 是否依赖不需要的能力？
+5. core 是否可以通过注入 fake 测试，dependency ownership 是否明确？
+
+将本节与 [`EXERCISES.md`](EXERCISES.md) 的 SOLID quiz 和 Capstone audit 一起完成。
+
 ## Patterns to treat carefully
 
 - Singleton：隐藏 global state、lifetime/order 和 test isolation 问题；

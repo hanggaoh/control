@@ -16,5 +16,6 @@
 | Observer | `mfc_legacy`, `capstone` | UI dispatch、subscriber lifetime |
 | Command | `capstone` | validation、queue、audit、idempotency |
 | Dependency injection | networking/MFC seams | fake clock/transport/dispatcher |
+| SOLID | `capstone/SYSTEM_DESIGN_TODO.md` | cohesive components、small interfaces、substitution contracts、dependency ownership |
 
 每次 review 只回答四个问题：problem、ownership/lifetime、trade-off、simpler alternative。
