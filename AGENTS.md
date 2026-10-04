@@ -92,6 +92,11 @@ Review each exercise for:
 - Make small, focused commits when the directory is a Git repository.
 - Do not silently complete learner TODOs unless explicitly asked for the
   solution.
+- Keep `main` solution-free: concepts, questions, TODO scaffolds, and tests may
+  be committed there, but completed learner implementations and quiz answer
+  keys belong on a module-specific `solution/*` branch. Merge completed module
+  solution branches into the `answers` integration branch, never back to
+  `main`.
 - Keep code and identifiers in English.
 
 ## Exclusions
