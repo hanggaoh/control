@@ -7,30 +7,35 @@
 
 namespace interview::foundations::practice {
 
-inline constexpr bool exercise_complete = false; // TODO: set true after completing the exercise.
+inline constexpr bool exercise_complete = true;
 
 class copy_swap_buffer {
 public:
     explicit copy_swap_buffer(std::size_t size)
         : size_(size), data_(size == 0 ? nullptr : new int[size]{}) {}
 
-    // TODO: release the owned array.
     ~copy_swap_buffer() { delete[] data_; }
 
-    // TODO: deep-copy other. Call maybe_throw_copy() before allocation.
     copy_swap_buffer(const copy_swap_buffer& other)
-        : size_(0), data_(nullptr) {
-        (void)other;
+        : size_(other.size_), data_(nullptr) {
+        maybe_throw_copy();
+        if (size_ != 0) {
+            data_ = new int[size_];
+            std::copy_n(other.data_, size_, data_);
+        }
     }
 
-    // TODO: implement copy-and-swap. Do not add a self-assignment special case.
     copy_swap_buffer& operator=(const copy_swap_buffer& other) {
-        (void)other;
+        copy_swap_buffer temporary(other);
+        swap(temporary);
         return *this;
     }
 
-    // TODO: exchange every representation member; this operation must not throw.
-    void swap(copy_swap_buffer& other) noexcept { (void)other; }
+    void swap(copy_swap_buffer& other) noexcept {
+        using std::swap;
+        swap(size_, other.size_);
+        swap(data_, other.data_);
+    }
 
     [[nodiscard]] std::size_t size() const noexcept { return size_; }
     int& operator[](std::size_t index) noexcept { return data_[index]; }
@@ -51,10 +56,8 @@ private:
     static inline bool fail_copy_{};
 };
 
-// TODO: delegate to the member swap and preserve noexcept.
 inline void swap(copy_swap_buffer& lhs, copy_swap_buffer& rhs) noexcept {
-    (void)lhs;
-    (void)rhs;
+    lhs.swap(rhs);
 }
 
 }  // namespace interview::foundations::practice
