@@ -2,6 +2,8 @@
 
 本模块固定为三层，按顺序学习：
 
+先从 [`basic_syntax/README.md`](basic_syntax/README.md) 开始：七组基础语法，每组 20–30 分钟，然后进入下方 ownership/lifetime 练习。
+
 1. **概念层**：本页建立地图；[`MODERN_CPP_SUMMARY.md`](MODERN_CPP_SUMMARY.md) 系统讲解。
 2. **问题层**：[`EXERCISES.md`](EXERCISES.md) 用 conceptual questions 检查 mental model。
 3. **实践层**：[`exercises/`](exercises/) 中是可编译的 TODO exercises 和验收测试。

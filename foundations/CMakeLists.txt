@@ -7,6 +7,16 @@ target_include_directories(
 target_compile_features(cpp_foundations INTERFACE cxx_std_20)
 
 if(BUILD_TESTING)
+    add_executable(basic_syntax_exercise_tests basic_syntax/tests/basic_syntax_tests.cpp)
+    target_include_directories(basic_syntax_exercise_tests PRIVATE basic_syntax/include)
+    target_compile_features(basic_syntax_exercise_tests PRIVATE cxx_std_20)
+    if(MSVC)
+        target_compile_options(basic_syntax_exercise_tests PRIVATE /W4 /permissive-)
+    else()
+        target_compile_options(basic_syntax_exercise_tests PRIVATE -Wall -Wextra -Wpedantic)
+    endif()
+    add_test(NAME foundation_basic_syntax_exercise COMMAND basic_syntax_exercise_tests)
+
     add_executable(cpp_foundations_tests tests/foundations_tests.cpp)
     target_link_libraries(cpp_foundations_tests PRIVATE cpp_foundations)
 
