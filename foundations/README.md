@@ -6,6 +6,9 @@
 2. **问题层**：[`EXERCISES.md`](EXERCISES.md) 用 conceptual questions 检查 mental model。
 3. **实践层**：[`exercises/`](exercises/) 中是可编译的 TODO exercises 和验收测试。
 
+针对本轮错题，先读 [`concepts/README.md`](concepts/README.md) 的 5 份专项讲解，
+再做 [`FOLLOW_UP_QUIZ.md`](FOLLOW_UP_QUIZ.md) 的 24 道新题（无答案）。
+
 不要先看完整实现。先口头回答问题，再补代码，最后运行测试。
 
 这个模块不是语法百科。目标是建立一套能解释代码、定位错误和讨论设计的 mental model，
