@@ -47,4 +47,3 @@ ctest --test-dir build -R foundation_migration_32_to_64 --output-on-failure --ve
 ```
 
 先完成 [`QUIZ.md`](QUIZ.md)，再写代码。不要用 `sizeof(struct)` 作为 wire format。
-

@@ -40,4 +40,3 @@ int main() {
 
     return failures == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
-

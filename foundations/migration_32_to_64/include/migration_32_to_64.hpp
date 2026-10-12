@@ -33,4 +33,3 @@ struct wire_header {
 };
 
 }  // namespace interview::foundations::migration_practice
-

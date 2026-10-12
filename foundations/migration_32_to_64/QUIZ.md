@@ -23,4 +23,3 @@ int length = payload.size();
 std::printf("%u", payload.size());
 send(socket, reinterpret_cast<const char*>(&message), sizeof(message), 0);
 ```
-
