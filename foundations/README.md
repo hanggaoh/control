@@ -134,3 +134,8 @@ TODO 练习初始状态也可构建。测试会报告 `SKIPPED`；完成一个�
 “声明了一个 function”仍可能得到 link error？
 
 详细的新旧 C++ 对照见 [`MODERN_CPP_SUMMARY.md`](MODERN_CPP_SUMMARY.md)。
+
+## Platform migration practice
+
+[`migration_32_to_64/`](migration_32_to_64/README.md) 训练 Windows LLP64、pointer truncation、
+checked narrowing、binary layout/ABI、protocol compatibility，以及 x86/x64 双构建迁移策略。
