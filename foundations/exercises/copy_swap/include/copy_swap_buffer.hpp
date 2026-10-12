@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <utility>
+#include <memory>
 
 namespace interview::foundations::practice {
 
@@ -17,12 +18,19 @@ public:
     ~copy_swap_buffer() { delete[] data_; }
 
     copy_swap_buffer(const copy_swap_buffer& other)
-        : size_(other.size_), data_(nullptr) {
+        : size_(0), data_(nullptr) {
+        auto candidate = other.size_ == 0
+            ? std::unique_ptr<int[]>{}
+            : std::make_unique<int[]>(other.size_);
+
         maybe_throw_copy();
-        if (size_ != 0) {
-            data_ = new int[size_];
-            std::copy_n(other.data_, size_, data_);
-        }
+
+        if (other.size_ != 0) {
+            std::copy_n(other.data_, other.size_, candidate.get());
+       }
+
+        size_ = other.size_;
+        data_ = candidate.release();
     }
 
     copy_swap_buffer& operator=(const copy_swap_buffer& other) {
@@ -32,9 +40,8 @@ public:
     }
 
     void swap(copy_swap_buffer& other) noexcept {
-        using std::swap;
-        swap(size_, other.size_);
-        swap(data_, other.data_);
+        std::swap(size_, other.size_);
+        std::swap(data_, other.data_);
     }
 
     [[nodiscard]] std::size_t size() const noexcept { return size_; }
@@ -48,7 +55,7 @@ private:
         if (fail_copy_) {
             fail_copy_ = false;
             throw std::runtime_error("injected copy failure");
-        }
+       }
     }
 
     std::size_t size_{};

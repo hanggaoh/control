@@ -24,6 +24,12 @@ if(BUILD_TESTING)
     target_include_directories(copy_swap_exercise_tests PRIVATE exercises/copy_swap/include)
     target_compile_features(copy_swap_exercise_tests PRIVATE cxx_std_20)
 
+    add_executable(rule_of_zero_exercise_tests
+        exercises/copy_swap/tests/rule_of_zero_tests.cpp
+    )
+    target_include_directories(rule_of_zero_exercise_tests PRIVATE exercises/copy_swap/include)
+    target_compile_features(rule_of_zero_exercise_tests PRIVATE cxx_std_20)
+
     add_executable(move_lifetime_exercise_tests
         exercises/move_lifetime/tests/move_lifetime_tests.cpp
     )
@@ -42,7 +48,7 @@ if(BUILD_TESTING)
     target_include_directories(shared_ownership_exercise_tests PRIVATE exercises/shared_ownership/include)
     target_compile_features(shared_ownership_exercise_tests PRIVATE cxx_std_20)
 
-    foreach(target copy_swap_exercise_tests move_lifetime_exercise_tests
+    foreach(target copy_swap_exercise_tests rule_of_zero_exercise_tests move_lifetime_exercise_tests
                    unique_resource_exercise_tests shared_ownership_exercise_tests)
         if(MSVC)
             target_compile_options(${target} PRIVATE /W4 /permissive-)
@@ -52,6 +58,7 @@ if(BUILD_TESTING)
     endforeach()
 
     add_test(NAME foundation_copy_swap_exercise COMMAND copy_swap_exercise_tests)
+    add_test(NAME foundation_rule_of_zero_exercise COMMAND rule_of_zero_exercise_tests)
     add_test(NAME foundation_move_lifetime_exercise COMMAND move_lifetime_exercise_tests)
     add_test(NAME foundation_unique_resource_exercise COMMAND unique_resource_exercise_tests)
     add_test(NAME foundation_shared_ownership_exercise COMMAND shared_ownership_exercise_tests)
