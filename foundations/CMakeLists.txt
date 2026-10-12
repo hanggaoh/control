@@ -17,6 +17,24 @@ if(BUILD_TESTING)
     endif()
     add_test(NAME foundation_basic_syntax_exercise COMMAND basic_syntax_exercise_tests)
 
+    add_executable(migration_32_to_64_exercise_tests
+        migration_32_to_64/tests/migration_32_to_64_tests.cpp
+    )
+    target_include_directories(
+        migration_32_to_64_exercise_tests
+        PRIVATE migration_32_to_64/include
+    )
+    target_compile_features(migration_32_to_64_exercise_tests PRIVATE cxx_std_20)
+    if(MSVC)
+        target_compile_options(migration_32_to_64_exercise_tests PRIVATE /W4 /permissive-)
+    else()
+        target_compile_options(migration_32_to_64_exercise_tests PRIVATE -Wall -Wextra -Wpedantic)
+    endif()
+    add_test(
+        NAME foundation_migration_32_to_64
+        COMMAND migration_32_to_64_exercise_tests
+    )
+
     add_executable(cpp_foundations_tests tests/foundations_tests.cpp)
     target_link_libraries(cpp_foundations_tests PRIVATE cpp_foundations)
 
